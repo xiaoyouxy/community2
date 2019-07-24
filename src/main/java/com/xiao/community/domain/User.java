@@ -1,12 +1,26 @@
 package com.xiao.community.domain;
 
-public class User {
+import java.io.Serializable;
+
+/**
+ * 用户实体类
+ */
+public class User implements Serializable {
     private Integer id;
     private String name;
     private String accountId;
     private String token;
     private Long gmtCreate;
     private Long gmtModified;
+    private String avatarUrl;
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
 
     public Integer getId() {
         return id;
