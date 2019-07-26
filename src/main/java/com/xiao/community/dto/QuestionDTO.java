@@ -5,6 +5,9 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+/**
+ * 问题和发布者
+ */
 @Data
 public class QuestionDTO implements Serializable {
     private Integer id;

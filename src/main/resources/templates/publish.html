@@ -21,6 +21,7 @@
                 <hr>
 
                 <form action="/publish" method="post">
+                    <input type="hidden" name="id" th:value="${id}"> <!--每一个问题的标志 id-->
                     <div class="form-group">
                         <label for="title">问题标题 (简单扼要)</label>
                         <input type="text" class="form-control" name="title" id="title" th:value="${title}" placeholder="问题标题...">
