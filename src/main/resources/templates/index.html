@@ -25,10 +25,12 @@
                     <a href="#">
                         <img class="media-object img-circle" th:src="${question.user.getAvatarUrl()}">
                     </a>
-
                 </div>
+
                 <div  class="media-body">
-                    <h4 class="media-heading" th:text="${question.title}"></h4>
+                    <h4 class="media-heading">
+                        <a th:href="@{'/question/'+ ${question.id}}" th:text="${question.title}"></a>
+                    </h4>
                     <span th:text="${question.description}"></span> <br>
                    <span class="text_desc"> <span th:text="${question.commentCount}"></span> 个回复 ●<span
                            th:text="${question.viewCount}"></span> 次浏览 ● <span

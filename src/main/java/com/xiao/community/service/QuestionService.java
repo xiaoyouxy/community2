@@ -83,7 +83,7 @@ public class QuestionService {
 
         Integer offset =size * (page - 1);
         List<QuestionDTO> dtos = new ArrayList<>(); //存放QuestionDTO的集合
-        List<Question> questions = questionMapper.findUserById(UserId, offset, size);
+        List<Question> questions = questionMapper.findAllById(UserId, offset, size);
 
         for(Question question : questions){
             User user = userMapper.findUserByID(question.getCreator()); //根据用户id找到发布问题的用户
@@ -94,5 +94,14 @@ public class QuestionService {
         }
         paginationDTO.setQuestions(dtos);
         return paginationDTO;
+    }
+
+    public QuestionDTO findById(Integer id){
+        QuestionDTO questionDTO =new QuestionDTO();
+        Question question = questionMapper.findById(id);
+        BeanUtils.copyProperties(question,questionDTO);
+        User user = userMapper.findUserByID(question.getCreator());
+        questionDTO.setUser(user);
+        return questionDTO;
     }
 }
