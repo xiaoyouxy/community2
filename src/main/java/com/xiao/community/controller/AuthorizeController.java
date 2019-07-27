@@ -3,7 +3,6 @@ package com.xiao.community.controller;
 import com.xiao.community.domain.User;
 import com.xiao.community.dto.AccessTokenDTO;
 import com.xiao.community.dto.GithubUser;
-import com.xiao.community.mapper.UserMapper;
 import com.xiao.community.provider.GithubProvider;
 import com.xiao.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
