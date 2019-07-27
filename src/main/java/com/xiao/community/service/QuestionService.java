@@ -1,5 +1,7 @@
 package com.xiao.community.service;
 
+import com.xiao.community.advice.CustomizeErrorCode;
+import com.xiao.community.advice.CustomizeException;
 import com.xiao.community.domain.Question;
 import com.xiao.community.domain.QuestionExample;
 import com.xiao.community.domain.User;
@@ -24,6 +26,12 @@ public class QuestionService {
     @Autowired(required = false)
     private UserMapper userMapper;
 
+    /**
+     * 查询所有问题
+     * @param page
+     * @param size
+     * @return
+     */
     public PaginationDTO findAll(Integer page, Integer size) {
         PaginationDTO paginationDTO = new PaginationDTO(); //分页对象
         Integer totalCount =(int) questionMapper.countByExample(new QuestionExample());
@@ -63,6 +71,13 @@ public class QuestionService {
         return paginationDTO;
     }
 
+    /**
+     * 查询账户发布的所有问题
+     * @param userId
+     * @param page
+     * @param size
+     * @return
+     */
     public PaginationDTO findAllById(Integer userId, Integer page, Integer size) {
         PaginationDTO paginationDTO = new PaginationDTO(); //分页对象
 
@@ -115,12 +130,19 @@ public class QuestionService {
     public QuestionDTO findById(Integer id){
         QuestionDTO questionDTO =new QuestionDTO();
         Question question = questionMapper.selectByPrimaryKey(id);
+        if (null == question){
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         BeanUtils.copyProperties(question,questionDTO);
         User user = userMapper.selectByPrimaryKey(question.getCreator());
         questionDTO.setUser(user);
         return questionDTO;
     }
 
+    /**
+     * 保存或者更新 问题
+     * @param question
+     */
     public void createOrUpdate(Question question) {
         if (question.getId()==null){
             //创建
@@ -138,7 +160,10 @@ public class QuestionService {
             QuestionExample example = new QuestionExample();
             example.createCriteria()
                     .andIdEqualTo(question.getId());
-            questionMapper.updateByExampleSelective(updateQuestion,example);
+            int i = questionMapper.updateByExampleSelective(updateQuestion, example);
+            if (i !=1){
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
         }
     }
 }
