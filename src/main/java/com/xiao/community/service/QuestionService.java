@@ -7,6 +7,7 @@ import com.xiao.community.domain.QuestionExample;
 import com.xiao.community.domain.User;
 import com.xiao.community.dto.PaginationDTO;
 import com.xiao.community.dto.QuestionDTO;
+import com.xiao.community.mapper.QuestionExtMapper;
 import com.xiao.community.mapper.QuestionMapper;
 import com.xiao.community.mapper.UserMapper;
 import org.apache.ibatis.session.RowBounds;
@@ -20,10 +21,13 @@ import java.util.List;
 @Service
 public class QuestionService {
 
-    @Autowired(required = false)
+    @Autowired
     private QuestionMapper questionMapper;
 
-    @Autowired(required = false)
+    @Autowired
+    private QuestionExtMapper questionExtMapper;
+
+    @Autowired
     private UserMapper userMapper;
 
     /**
@@ -78,7 +82,7 @@ public class QuestionService {
      * @param size
      * @return
      */
-    public PaginationDTO findAllById(Integer userId, Integer page, Integer size) {
+    public PaginationDTO findAllById(Long userId, Integer page, Integer size) {
         PaginationDTO paginationDTO = new PaginationDTO(); //分页对象
 
         QuestionExample questionExample = new QuestionExample();
@@ -127,7 +131,7 @@ public class QuestionService {
      * @param id 问题
      * @return
      */
-    public QuestionDTO findById(Integer id){
+    public QuestionDTO findById(Long id){
         QuestionDTO questionDTO =new QuestionDTO();
         Question question = questionMapper.selectByPrimaryKey(id);
         if (null == question){
@@ -148,6 +152,9 @@ public class QuestionService {
             //创建
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModified(question.getGmtCreate());
+            question.setViewCount(0);
+            question.setLikeCount(0);
+            question.setCommentCount(0);
             questionMapper.insert(question);
         }else {
             //更新
@@ -165,5 +172,17 @@ public class QuestionService {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
         }
+    }
+
+    /**
+     * 增加阅读数
+     * @param id
+     */
+    public void incView(Long id) {
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        questionExtMapper.incView(question);
+
     }
 }
