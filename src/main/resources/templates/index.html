@@ -10,6 +10,15 @@
     <script src="../static/js/jquery.min.js" type="application/javascript"></script>
     <script src="../static/js/bootstrap.min.js" type="application/javascript"></script>
 </head>
+<script type="application/javascript">
+    window.onload = function () {
+        var colsable = window.localStorage.getItem("colsable");
+        if (colsable == "true"){
+            window.close();
+            window.localStorage.removeItem("colsable");
+        }
+    }
+</script>
 <body>
 
 <div th:insert="~{navigation :: nav}"></div>
