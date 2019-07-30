@@ -9,8 +9,8 @@ import java.util.List;
  * 分页对象
  */
 @Data
-public class PaginationDTO {
-    private List<QuestionDTO> questions; //查询到的问题 集合
+public class PaginationDTO<T> {
+    private List<T> data; //查询到的问题 集合
     private boolean showPrevious;  //向前按钮
     private boolean showFirstPage; //直接跳到第一页的按钮
     private boolean showNext; //向后按钮

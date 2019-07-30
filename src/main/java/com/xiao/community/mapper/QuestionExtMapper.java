@@ -22,4 +22,6 @@ public interface QuestionExtMapper {
      * @return
      */
     int incCommentCount(Question record);
+
+    List<Question> selectRelated(Question record);
 }

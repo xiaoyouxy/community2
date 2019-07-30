@@ -10,7 +10,8 @@
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                     <span class="sr-only">落尘社区</span>
                 </button>
                 <a class="navbar-brand" href="/">落尘社区</a>
@@ -27,13 +28,17 @@
                     <li th:if="${session.user!=null}">
                         <a href="/publish">提问</a>
                     </li>
+                    <li>
+                        <a href="/profile/replies">通知 <span class="badge" th:text="${session.unreadCount}"></span></a>
+                    </li>
                     <li class="dropdown" th:if="${session.user!=null}">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" >
-                            <span class="caret" ></span>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">
+                            <span class="caret"></span>
                             <span th:text="${session.user.getName()}"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="profile/questions">我的问题</a></li>
+                            <li><a href="/profile/questions">我的问题</a></li>
                             <li><a href="/logout">退出登录</a></li>
                         </ul>
                     </li>
