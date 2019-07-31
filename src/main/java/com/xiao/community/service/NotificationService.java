@@ -73,6 +73,11 @@ public class NotificationService {
         return paginationDTO;
     }
 
+    /**
+     * 查询未处理的通知数量
+     * @param userId
+     * @return
+     */
     public Long unreadCount(Long userId) {
         NotificationExample notificationExample = new NotificationExample();
         notificationExample.createCriteria()
@@ -81,7 +86,12 @@ public class NotificationService {
         return notificationMapper.countByExample(notificationExample);
     }
 
-
+    /**
+     * 读取通知
+     * @param id
+     * @param user
+     * @return
+     */
     public NotificationDTO read(Long id, User user) {
         Notification notification = notificationMapper.selectByPrimaryKey(id);
         if (notification == null){

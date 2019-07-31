@@ -3,6 +3,8 @@ package com.xiao.community.mapper;
 import com.xiao.community.domain.Question;
 import com.xiao.community.domain.QuestionExample;
 import java.util.List;
+
+import com.xiao.community.dto.QuestionQueryDTO;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
@@ -134,4 +136,5 @@ public interface QuestionMapper {
      * @mbg.generated Tue Jul 30 20:36:46 CST 2019
      */
     int updateByPrimaryKey(Question record);
+
 }

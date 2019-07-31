@@ -7,6 +7,7 @@ import com.xiao.community.domain.QuestionExample;
 import com.xiao.community.domain.User;
 import com.xiao.community.dto.PaginationDTO;
 import com.xiao.community.dto.QuestionDTO;
+import com.xiao.community.dto.QuestionQueryDTO;
 import com.xiao.community.mapper.QuestionExtMapper;
 import com.xiao.community.mapper.QuestionMapper;
 import com.xiao.community.mapper.UserMapper;
@@ -72,6 +73,64 @@ public class QuestionService {
         questionExample.setOrderByClause("gmt_create desc"); //按时间倒序排列
 
         List<Question> questions = questionMapper.selectByExampleWithRowbounds(questionExample,new RowBounds(offset,size));
+
+        for(Question question : questions){
+            User user = userMapper.selectByPrimaryKey(question.getCreator());
+            QuestionDTO questionDTO = new QuestionDTO();
+            BeanUtils.copyProperties(question,questionDTO); //快速把question赋值给questionDTO
+            questionDTO.setUser(user);
+            dtos.add(questionDTO);
+        }
+        paginationDTO.setData(dtos);
+        return paginationDTO;
+    }
+
+
+    public PaginationDTO findAll(String search, Integer page, Integer size) {
+
+        if(StringUtils.isNotBlank(search)){
+            String[] tags = StringUtils.split(search," ");
+            search = Arrays.stream(tags).collect(Collectors.joining("|"));
+        }
+
+
+
+        PaginationDTO<QuestionDTO> paginationDTO = new PaginationDTO(); //分页对象
+
+
+        QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
+        questionQueryDTO.setSearch(search);
+
+        Integer totalCount = questionExtMapper.countBySearch(questionQueryDTO);
+
+        Integer totalPage; //总页数
+
+        if (totalCount % size == 0){
+            totalPage = totalCount / size;
+        }else {
+            totalPage = totalCount / size + 1;
+        }
+
+        //判断页面是否越界
+        if(page < 1) {
+            page = 1;
+        }
+        if(page > totalPage){
+            page = totalPage;
+        }
+
+        paginationDTO.setPagination(totalPage, page);
+
+        Integer offset =size * (page - 1);
+        List<QuestionDTO> dtos = new ArrayList<>(); //存放QuestionDTO的集合
+
+
+        QuestionExample questionExample = new QuestionExample();
+        questionExample.setOrderByClause("gmt_create desc"); //按时间倒序排列
+
+        questionQueryDTO.setSize(size);
+        questionQueryDTO.setPage(offset);
+        List<Question> questions = questionExtMapper.selectBySearch(questionQueryDTO);
 
         for(Question question : questions){
             User user = userMapper.selectByPrimaryKey(question.getCreator());

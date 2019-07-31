@@ -44,7 +44,10 @@
                             path   : "../static/js/lib/",
                             delay  :  0,
                             watch  :  false,
-                            placeholder : "请输入问题描述"
+                            placeholder : "请输入问题描述",
+                            imageUpload : true,
+                            imageFormats:["jpg","jpeg","gif","png","bmp","webp"],
+                            imageUploadURL :"/file/upload",
                         });
                     });
                 </script>
@@ -97,5 +100,7 @@
         </div>
     </div>
 </div>
+
+<div th:insert="~{footer :: foot}"></div>
 </body>
 </html>

@@ -8,11 +8,11 @@ public class CommentDTO {
     private Long id;
     private Long parentId;
     private Integer type;
-    private Long commentator;
+    private Long commentator;  //评论发布的用户id
     private Long gmtCreate;
     private Long gmtModified;
     private Long likeCount;
-    private String content;
-    private Integer commentCount;
-    private User user;
+    private String content; //评论内容
+    private Integer commentCount; //评论数量
+    private User user; //评论发布的用户信息
 }
